@@ -8,8 +8,8 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/contexts/ThemeContext';
 import { themes, themeKeys } from '../src/constants/themes';
+import { getBackendUrl } from '../src/config';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 const { width } = Dimensions.get('window');
 
 const PROVIDERS = [
@@ -54,7 +54,8 @@ export default function Onboarding() {
     setSaving(true);
     setError('');
     try {
-      const response = await fetch(`${BACKEND_URL}/api/config`, {
+      const backendUrl = getBackendUrl();
+      const response = await fetch(`${backendUrl}/api/config`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -4,8 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../src/contexts/ThemeContext';
 import { getBackendUrl } from '../../src/config';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
-
 const SPECIAL_KEYS = [
   { label: 'ESC', data: '\x1b', isModifier: false },
   { label: 'TAB', data: '\t', isModifier: false },
@@ -35,7 +33,8 @@ const CTRL_SHORTCUTS = [
 function WebTerminal() {
   const { theme } = useTheme();
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const terminalUrl = `${BACKEND_URL}/api/terminal-html?t=${Date.now()}`;
+  const backendUrl = getBackendUrl();
+  const terminalUrl = `${backendUrl}/api/terminal-html?t=${Date.now()}`;
 
   return (
     <View style={styles.terminalContainer}>
@@ -57,6 +56,7 @@ function WebTerminal() {
 function NativeTerminal() {
   const { theme } = useTheme();
   const webViewRef = useRef<any>(null);
+  const backendUrl = getBackendUrl();
 
   // Dynamic import for native only
   const [WebViewComponent, setWebViewComponent] = useState<any>(null);
@@ -70,7 +70,7 @@ function NativeTerminal() {
     }
   }, []);
 
-  const wsUrl = BACKEND_URL.replace('https://', 'wss://').replace('http://', 'ws://') + '/api/ws/terminal';
+  const wsUrl = backendUrl.replace('https://', 'wss://').replace('http://', 'ws://') + '/api/ws/terminal';
 
   const terminalHtml = `<!DOCTYPE html>
 <html><head>

@@ -8,8 +8,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../src/contexts/ThemeContext';
 import { getBackendUrl } from '../../src/config';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
-
 interface Message {
   id: string;
   role: string;
@@ -32,7 +30,7 @@ export default function AgentScreen() {
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/api/chat/history`);
+      const res = await fetch(`${getBackendUrl()}/api/chat/history`);
       if (res.ok) {
         const data = await res.json();
         setMessages(data);
@@ -60,7 +58,7 @@ export default function AgentScreen() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${BACKEND_URL}/api/chat`, {
+      const res = await fetch(`${getBackendUrl()}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: text }),
@@ -88,7 +86,7 @@ export default function AgentScreen() {
 
   const executeCommand = async (command: string) => {
     try {
-      await fetch(`${BACKEND_URL}/api/terminal/execute`, {
+      await fetch(`${getBackendUrl()}/api/terminal/execute`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command }),
@@ -181,7 +179,7 @@ export default function AgentScreen() {
 
   const clearHistory = async () => {
     try {
-      await fetch(`${BACKEND_URL}/api/chat/history`, { method: 'DELETE' });
+      await fetch(`${getBackendUrl()}/api/chat/history`, { method: 'DELETE' });
       setMessages([]);
     } catch (e) {
       // ignore

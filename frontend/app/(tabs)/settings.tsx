@@ -9,8 +9,6 @@ import { useTheme } from '../../src/contexts/ThemeContext';
 import { themes, themeKeys } from '../../src/constants/themes';
 import { getBackendUrl } from '../../src/config';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
-
 const PROVIDERS = [
   { id: 'openai', label: 'OpenAI', endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o' },
   { id: 'anthropic', label: 'Anthropic', endpoint: 'https://api.anthropic.com/v1/messages', model: 'claude-sonnet-4-20250514' },
@@ -39,7 +37,7 @@ export default function SettingsScreen() {
 
   const loadConfig = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/api/config`);
+      const res = await fetch(`${getBackendUrl()}/api/config`);
       if (res.ok) {
         const data = await res.json();
         setConfig(data);
@@ -75,7 +73,7 @@ export default function SettingsScreen() {
         theme: themeName,
         auto_execute: autoExecute,
       };
-      const res = await fetch(`${BACKEND_URL}/api/config`, {
+      const res = await fetch(`${getBackendUrl()}/api/config`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

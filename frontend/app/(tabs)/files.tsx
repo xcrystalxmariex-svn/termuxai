@@ -8,8 +8,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../src/contexts/ThemeContext';
 import { getBackendUrl } from '../../src/config';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
-
 interface FileItem {
   name: string;
   path: string;
@@ -72,7 +70,7 @@ export default function FilesScreen() {
   const fetchDir = useCallback(async (path: string) => {
     setLoading(true);
     try {
-      const res = await fetch(`${BACKEND_URL}/api/files?path=${encodeURIComponent(path)}`);
+      const res = await fetch(`${getBackendUrl()}/api/files?path=${encodeURIComponent(path)}`);
       if (res.ok) {
         const data = await res.json();
         setItems(data.items || []);
@@ -96,7 +94,7 @@ export default function FilesScreen() {
     } else {
       setLoading(true);
       try {
-        const res = await fetch(`${BACKEND_URL}/api/files/read?path=${encodeURIComponent(item.path)}`);
+        const res = await fetch(`${getBackendUrl()}/api/files/read?path=${encodeURIComponent(item.path)}`);
         if (res.ok) {
           const data = await res.json();
           setViewingFile(data);
@@ -118,7 +116,7 @@ export default function FilesScreen() {
     if (!viewingFile) return;
     setSaving(true);
     try {
-      const res = await fetch(`${BACKEND_URL}/api/files/write`, {
+      const res = await fetch(`${getBackendUrl()}/api/files/write`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ path: viewingFile.path, content: editContent }),
@@ -140,13 +138,13 @@ export default function FilesScreen() {
     const fullPath = `${currentPath}/${newName.trim()}`;
     try {
       if (newIsDir) {
-        await fetch(`${BACKEND_URL}/api/files/mkdir`, {
+        await fetch(`${getBackendUrl()}/api/files/mkdir`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ path: fullPath }),
         });
       } else {
-        await fetch(`${BACKEND_URL}/api/files/write`, {
+        await fetch(`${getBackendUrl()}/api/files/write`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ path: fullPath, content: '' }),
@@ -171,7 +169,7 @@ export default function FilesScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
-              await fetch(`${BACKEND_URL}/api/files?path=${encodeURIComponent(item.path)}`, {
+              await fetch(`${getBackendUrl()}/api/files?path=${encodeURIComponent(item.path)}`, {
                 method: 'DELETE',
               });
               fetchDir(currentPath);
