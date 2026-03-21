@@ -13,14 +13,12 @@
         "buildType": "apk"
       },
       "distribution": "internal",
-      "env": {},
-      "prebuildCommand": "cd frontend && npm install --package-lock-only --legacy-peer-deps"
+      "env": {}
     },
     "production": {
       "android": {
         "buildType": "apk"
-      },
-      "prebuildCommand": "cd frontend && npm install --package-lock-only --legacy-peer-deps"
+      }
     }
   },
   "submit": {
