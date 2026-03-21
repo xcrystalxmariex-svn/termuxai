@@ -807,12 +807,12 @@ termux-wake-lock 2>/dev/null || true
 # Kill existing session if any
 tmux kill-session -t termuxai 2>/dev/null || true
 # Start server in tmux with auto-restart loop
-tmux new-session -d -s termuxai "cd ~/termuxai && while true; do echo '=== TermuxAI Server Starting ===' && python -m uvicorn server:app --host 0.0.0.0 --port 8001 --reload; echo ''; echo 'Server stopped. Restarting in 3s...'; sleep 3; done"
+tmux new-session -d -s termuxai "cd ~/termuxai && while true; do echo '=== TermuxAI Server Starting ===' && python -m uvicorn server:app --host 0.0.0.0 --port 8080 --reload; echo ''; echo 'Server stopped. Restarting in 3s...'; sleep 3; done"
 echo ""
 echo "TermuxAI server started!"
 echo "  View logs:  tmux attach -t termuxai"
 echo "  Stop:       ~/termuxai/stop.sh"
-echo "  URL:        http://localhost:8001"
+echo "  URL:        http://localhost:8080"
 echo ""
 STARTEOF
 chmod +x start.sh
@@ -834,7 +834,7 @@ if tmux has-session -t termuxai 2>/dev/null; then
     echo "TermuxAI: RUNNING"
     echo "  View: tmux attach -t termuxai"
     echo "  Stop: ~/termuxai/stop.sh"
-    curl -s http://localhost:8001/api/ 2>/dev/null && echo "  API: OK" || echo "  API: Starting..."
+    curl -s http://localhost:8080/api/ 2>/dev/null && echo "  API: OK" || echo "  API: Starting..."
 else
     echo "TermuxAI: STOPPED"
     echo "  Start: ~/termuxai/start.sh"

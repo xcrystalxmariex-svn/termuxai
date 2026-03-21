@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const DEFAULT_URL = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+const DEFAULT_URL = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8080';
 
 let _cachedUrl: string = '';
 let _initialized = false;
