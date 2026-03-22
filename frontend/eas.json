@@ -6,19 +6,22 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "npmInstallFlags": ["--legacy-peer-deps"]
     },
     "preview": {
       "android": {
         "buildType": "apk"
       },
       "distribution": "internal",
-      "env": {}
+      "env": {},
+      "npmInstallFlags": ["--legacy-peer-deps"]
     },
     "production": {
       "android": {
         "buildType": "apk"
-      }
+      },
+      "npmInstallFlags": ["--legacy-peer-deps"]
     }
   },
   "submit": {
